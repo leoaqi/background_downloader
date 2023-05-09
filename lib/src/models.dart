@@ -101,7 +101,10 @@ enum BaseDirectory {
   /// As returned by getApplicationLibrary() on iOS. For other platforms
   /// this resolves to the subdirectory 'Library' created in the directory
   /// returned by getApplicationSupportDirectory()
-  applicationLibrary
+  applicationLibrary,
+
+  //getExternalStorageDirectory()
+  externalStorageDirectory
 }
 
 /// Type of updates requested for a task or group of tasks
@@ -373,6 +376,10 @@ abstract class Task extends Request {
         break;
       case BaseDirectory.applicationSupport:
         baseDir = await getApplicationSupportDirectory();
+        break;
+      case BaseDirectory.externalStorageDirectory:
+        baseDir = await getExternalStorageDirectory() ??
+            await getApplicationSupportDirectory();
         break;
       case BaseDirectory.applicationLibrary:
         baseDir = Platform.isMacOS || Platform.isIOS
